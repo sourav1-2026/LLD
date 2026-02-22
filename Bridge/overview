@@ -1,0 +1,102 @@
+// in Bridge pattern, we separate the abstraction (interface) from its implementation (concrete classes) so that both can vary independently.
+// This allows us to change the implementation without affecting the clients that use the abstraction. The key components of the Bridge pattern are:
+
+
+// Here both feature and implementation can change at runtime and provide flexibilty to the system.
+
+1️⃣ Bridge Design Pattern Kya Problem Solve Karta Hai?
+        🔥 Main Problem: Combinatorial Explosion of Classes
+
+Jab aapke paas do dimensions ho:
+
+What to be done (Feature)
+
+How it is done (Implementation / Mechanism)
+
+Aur agar aap dono ko ek hi class me mix kar doge,
+        to combinations ke hisaab se classes explode kar jaati hain.
+
+
+🎯 Example: Notification System
+What to be done (Feature)
+
+Alert Notification
+
+Reminder Notification
+
+Transaction Notification
+
+How it is done (Implementation)
+
+Email
+
+SMS
+
+Slack
+
+Agar Bridge use nahi karoge, to classes banengi:
+
+AlertEmailNotification
+
+AlertSMSNotification
+
+AlertSlackNotification
+
+ReminderEmailNotification
+
+ReminderSMSNotification
+
+ReminderSlackNotification
+
+TransactionEmailNotification
+
+TransactionSMSNotification
+
+TransactionSlackNotification
+
+👉 Total = 3 × 3 = 9 classes
+Kal Teams add hua → 3 aur classes
+
+
+2️⃣ Bridge Design Pattern Kya Karta Hai?
+
+Bridge pattern:
+
+Separates abstraction (What) from implementation (How)
+So that both can vary independently.
+
+💡 Golden Line (Interview Me Bolne Layak)
+
+Bridge pattern separates “What to be done” from “How it is done” to avoid combinatorial explosion and make code scalable and maintainable.
+
+
+3️⃣ Structure of Bridge Pattern
+
+Bridge me 4 main cheeze hoti hain:
+
+Abstraction → Notification
+
+Refined Abstraction → Alert, Reminder
+
+Implementor → NotificationSender
+
+Concrete Implementor → EmailSender, SMSSender
+
+
+🔟 Ratane Ka Tarika (Exam / Interview Trick)
+
+Yaad rakhne ka formula:
+
+WHAT + HOW = Bridge
+
+Ya phir:
+
+Feature alag, Functionality alag
+
+Ya phir:
+
+Abstraction holds reference of Implementor
+
+Memory Trick:
+
+🧠 “Bridge banaya hai What aur How ke beech”

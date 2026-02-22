@@ -1,0 +1,76 @@
+1️⃣ Introduction
+
+Chain of Responsibility (CoR) ek Behavioral Design Pattern hai.
+
+👉 Jab system me multiple handlers ho jo ek request ko process kar sakte hain,
+👉 Aur hume pehle se nahi pata ho ki kaunsa handler request handle karega,
+
+Tab hum Chain of Responsibility use karte hain.
+
+
+2️⃣ Basic Problem (Without CoR)
+Example: Logger System
+
+Suppose hum ek logger bana rahe hain:
+
+INFO
+
+DEBUG
+
+ERROR
+
+WARNING
+
+Without CoR, code kuch aisa hoga:
+
+public void log(int level, String message) {
+    if(level == 1) {
+        // Info logic
+    } else if(level == 2) {
+        // Debug logic
+    } else if(level == 3) {
+        // Error logic
+    }
+}
+
+3️⃣ Problems with Multiple if-else
+❌ 1. Open-Closed Principle Break
+
+Open-Closed Principle kehta hai:
+
+Class should be closed for modification but open for extension.
+
+Agar kal ko naya level add karna ho (e.g., WARNING),
+to existing class modify karni padegi → ❌ OCP break.
+
+
+❌ 2. Code Not Modular
+
+Sab behavior ek hi class me hai.
+
+WHAT (log type – info/debug/error)
+
+HOW (kaise process karna hai – alarm trigger, cloud storage, etc.)
+
+Dono tightly coupled hain.
+
+
+❌ 3. Tight Coupling Problem
+
+Agar Debug me galti ho gayi aur object create hi na ho,
+to Info aur Error bhi kaam nahi karenge.
+
+Ek jagah bug → pura system impact.
+
+5️⃣ Core Idea of Chain of Responsibility
+
+Concept = Linked List
+
+Har handler ek node hota hai.
+
+Har node ke paas:
+
+Apna processing logic
+
+Next handler ka reference
+

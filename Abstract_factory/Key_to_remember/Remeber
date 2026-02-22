@@ -1,0 +1,61 @@
+🔥 STEP 1: Pattern Pehchano
+
+Jab bhi dikhe:
+
+❗ Multiple related classes
+
+❗ Classes grouped in families
+
+❗ Nested if-else
+
+❗ Switching one object requires switching all
+
+❗ Client creating objects directly
+
+
+🔥 STEP 2: Formula Yaad Rakho
+
+If nesting depth = N
+
+👉 Number of factory layers = N - 1
+
+Last level = normal method
+Upper levels = factories
+
+
+🔥 STEP 3: Structure Ratne Ka Shortcut
+🎯 Abstract Factory = Factory of Factories
+
+Structure yaad karo:
+
+Top Level Factory
+      ↓
+Second Level Factory
+      ↓
+Product Creation Method
+
+
+
+🔥 3-Level Example Ratne Ka Shortcut
+
+Agar condition hai:
+
+Level
+→ Creator
+→ Course Type
+
+To structure hoga:
+
+LevelFactory
+    ↓
+CreatorFactory
+    ↓
+createLLD() / createHLD()
+
+
+🔥 4 Golden Rules (Important)
+
+1️⃣ Products ke liye Interface banao
+2️⃣ Har family ke liye Concrete Classes banao
+3️⃣ Ek Abstract Factory Interface banao
+4️⃣ Har family ke liye Concrete Factory banao

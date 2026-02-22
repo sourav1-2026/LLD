@@ -1,0 +1,65 @@
+🎯 Main Problem:
+
+Too many constructor parameters
+Optional parameters
+Combinatorial constructor explosion
+
+
+
+class HumanBody {
+    String name;
+    String gender;
+    boolean biceps;
+    boolean triceps;
+    boolean chest;
+    boolean abs;
+    boolean calves;
+}
+
+
+
+Ab problem:
+
+Name & gender → required
+
+Baaki sab → optional
+
+Ab agar constructor se banaoge:
+
+
+new HumanBody(name, gender, true, false, true, false, true);
+
+
+❌ Confusing
+❌ Readability kharab
+❌ Order yaad rakhna padega
+❌ Multiple constructors banane padenge
+
+
+2️⃣ When to Use Builder Pattern?
+
+Use Builder when:
+
+✔ Object has many optional parameters
+✔ Constructor parameters bohot zyada ho
+✔ Object immutable banana ho
+✔ Readability improve karni ho
+✔ Step-by-step object creation chahiye
+
+3️⃣ Core Idea of Builder
+
+Instead of:
+
+new HumanBody(...)
+
+
+HumanBody body = new HumanBody.Builder("John", "Male")
+                        .biceps()
+                        .triceps()
+                        .chest()
+                        .build();
+
+
+
+
+
