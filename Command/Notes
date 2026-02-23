@@ -1,0 +1,69 @@
+3️⃣ When to Use Command Pattern
+
+Command Pattern use karo jab:
+
+✔ Undo/Redo functionality chahiye
+✔ Task history maintain karni ho
+✔ Sender aur Receiver logic separate karna ho
+✔ Multiple actions ko queue me schedule karna ho
+✔ Behavioral if-else logic ho
+
+
+4️⃣ Problem Example – Task Scheduler
+
+Suppose aapko ek Task Scheduler banana hai jo:
+
+Email bheje
+
+Report generate kare
+
+Database backup kare
+
+Without any pattern, code aisa dikhega:
+
+
+public void runTask(String type) {
+    if(type.equals("EMAIL")) {
+        EmailService email = new EmailService();
+        email.sendEmail();
+    }
+    else if(type.equals("REPORT")) {
+        ReportService report = new ReportService();
+        report.generateReport();
+    }
+    else if(type.equals("BACKUP")) {
+        BackupService backup = new BackupService();
+        backup.backupDatabase();
+    }
+}
+
+5️⃣ Problems in This Approach
+❌ 1. Tight Coupling
+
+Object creation + behavior dono same jagah likha hua hai.
+
+❌ 2. Not Modular
+
+Ek jagah change → pura system impact.
+
+❌ 3. Open Closed Principle Violation
+
+Naya task add karne ke liye class modify karni padegi.
+
+❌ 4. Code Scalability Issue
+
+Code base bada hoga to change risky ho jayega.
+
+
+
+7️⃣ Core Idea of Command Pattern
+
+Har task ko ek Command Object bana do.
+
+Har command ke paas 2 methods honge:
+
+execute()
+undo()
+
+
+
