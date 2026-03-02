@@ -1,0 +1,53 @@
+✅ Why Do We Need Decorator Design Pattern?
+
+In systems where an object can have multiple optional features or behaviors, handling them using if-else conditions makes the code:
+
+hard to maintain
+
+tightly coupled
+
+difficult to extend
+
+violates Open-Closed Principle
+
+
+
+❓ Common Doubt
+
+If we already write:
+
+if(isEmail) sendEmail();
+if(isSMS) sendSMS();
+if(isSlack) sendSlack();
+
+then why do we need Decorator Pattern?
+
+✅ This approach works for simple feature enabling/disabling.
+
+But problems start when:
+
+New notification types are added (Teams, WhatsApp, Push, etc.)
+
+Existing class must be modified every time
+
+Execution order or dependency between features appears
+
+One class becomes responsible for all behaviors
+
+So even though combinations are handled, the class still keeps changing, which breaks good design principles
+
+
+
+🎯 Actual Need of Decorator Pattern
+
+Decorator Pattern allows us to:
+
+✅ Add new behavior without modifying existing code
+✅ Dynamically combine features at runtime
+✅ Avoid large IF-ELSE logic
+✅ Follow Open-Closed Principle
+✅ Keep responsibilities separated
+
+⭐ One-Line Definition
+
+Decorator Design Pattern is used when we want to add responsibilities or features to an object dynamically without modifying its existing implementation.
