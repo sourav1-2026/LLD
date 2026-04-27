@@ -76,7 +76,7 @@ public class Abstract {
                 CourseFactory factory = producer.getFactory(creator);
 
                 if(factory != null) {
-                    if(contentType.equals("LLD")) {
+                    if(contentType.equals("LLD_question")) {
                         LLD lld = factory.createLLD();
                         lld.display();
                     } else if(contentType.equals("HLD")) {

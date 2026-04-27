@@ -1,69 +1,291 @@
-3️⃣ When to Use Command Pattern
-
-Command Pattern use karo jab:
-
-✔ Undo/Redo functionality chahiye
-✔ Task history maintain karni ho
-✔ Sender aur Receiver logic separate karna ho
-✔ Multiple actions ko queue me schedule karna ho
-✔ Behavioral if-else logic ho
+👉 System:
 
 
-4️⃣ Problem Example – Task Scheduler
-
-Suppose aapko ek Task Scheduler banana hai jo:
-
-Email bheje
-
-Report generate kare
-
-Database backup kare
-
-Without any pattern, code aisa dikhega:
+Email भेजना
 
 
-public void runTask(String type) {
-    if(type.equals("EMAIL")) {
-        EmailService email = new EmailService();
-        email.sendEmail();
-    }
-    else if(type.equals("REPORT")) {
-        ReportService report = new ReportService();
-        report.generateReport();
-    }
-    else if(type.equals("BACKUP")) {
-        BackupService backup = new BackupService();
-        backup.backupDatabase();
+Report generate करना
+
+
+DB backup लेना
+
+
+Notification भेजना
+
+
+👉 Requirement:
+
+
+Tasks schedule करने हैं
+
+
+Undo support चाहिए
+
+
+History maintain करनी है
+
+
+Sender (Scheduler) ≠ Receiver (Service)
+
+
+
+❌ Without Pattern (Bad Approach)
+class TaskScheduler {
+
+    public void runTask(String type) {
+        if (type.equals("EMAIL")) {
+            EmailService email = new EmailService();
+            email.sendEmail();
+        } else if (type.equals("REPORT")) {
+            ReportService report = new ReportService();
+            report.generateReport();
+        } else if (type.equals("BACKUP")) {
+            BackupService backup = new BackupService();
+            backup.backupDatabase();
+        }
     }
 }
 
-5️⃣ Problems in This Approach
-❌ 1. Tight Coupling
 
-Object creation + behavior dono same jagah likha hua hai.
+🚨 Problems (Interview में बोलना जरूरी)
+❌ 1. If-Else Hell
+👉 हर नया task = नया if-else
+❌ 2. Tight Coupling
+👉 Scheduler को सब services का पता है
+❌ 3. Open-Closed Violation
+👉 नया task → existing class modify
+❌ 4. No Undo / History
+👉 Track नहीं कर सकते
+❌ 5. Hard Testing
+👉 छोटा change → पूरा system test
 
-❌ 2. Not Modular
+✅ Solution: Command Design Pattern
+👉 Golden Idea:
 
-Ek jagah change → pura system impact.
-
-❌ 3. Open Closed Principle Violation
-
-Naya task add karne ke liye class modify karni padegi.
-
-❌ 4. Code Scalability Issue
-
-Code base bada hoga to change risky ho jayega.
-
-
-
-7️⃣ Core Idea of Command Pattern
-
-Har task ko ek Command Object bana do.
-
-Har command ke paas 2 methods honge:
-
-execute()
-undo()
+“Request को Object बना दो” (Command Object)
 
 
+🧩 Structure समझो
+6
 
+🧱 Step 1: Command Interface
+interface TaskCommand {
+    void execute();
+    void undo();
+}
+
+
+🧱 Step 2: Receiver Classes (Actual Logic)
+class EmailService {
+    void sendEmail(String msg) {
+        System.out.println("Sending Email: " + msg);
+    }
+
+    void cancelEmail() {
+        System.out.println("Cancelling Email");
+    }
+}
+
+class ReportService {
+    void generateReport() {
+        System.out.println("Generating Report");
+    }
+
+    void deleteReport() {
+        System.out.println("Deleting Report");
+    }
+}
+
+
+🧱 Step 3: Concrete Commands
+▶️ Email Command
+class EmailCommand implements TaskCommand {
+    private EmailService service;
+    private String message;
+
+    public EmailCommand(EmailService service, String message) {
+        this.service = service;
+        this.message = message;
+    }
+
+    @Override
+    public void execute() {
+        service.sendEmail(message);
+    }
+
+    @Override
+    public void undo() {
+        service.cancelEmail();
+    }
+}
+
+
+▶️ Report Command
+class ReportCommand implements TaskCommand {
+    private ReportService service;
+
+    public ReportCommand(ReportService service) {
+        this.service = service;
+    }
+
+    @Override
+    public void execute() {
+        service.generateReport();
+    }
+
+    @Override
+    public void undo() {
+        service.deleteReport();
+    }
+}
+
+
+🧱 Step 4: Invoker (Scheduler)
+import java.util.*;
+
+class TaskScheduler {
+
+    Queue<TaskCommand> queue = new LinkedList<>();
+    Stack<TaskCommand> history = new Stack<>();
+
+    public void addTask(TaskCommand task) {
+        queue.add(task);
+    }
+
+    public void runTasks() {
+        while (!queue.isEmpty()) {
+            TaskCommand task = queue.poll();
+            task.execute();
+            history.push(task);
+        }
+    }
+
+    public void undoLast() {
+        if (!history.isEmpty()) {
+            TaskCommand task = history.pop();
+            task.undo();
+        }
+    }
+}
+
+
+🧪 Usage (Client Code)
+public class Main {
+    public static void main(String[] args) {
+
+        EmailService emailService = new EmailService();
+        ReportService reportService = new ReportService();
+
+        TaskCommand emailTask = new EmailCommand(emailService, "Hello!");
+        TaskCommand reportTask = new ReportCommand(reportService);
+
+        TaskScheduler scheduler = new TaskScheduler();
+
+        scheduler.addTask(emailTask);
+        scheduler.addTask(reportTask);
+
+        scheduler.runTasks();
+
+        scheduler.undoLast(); // undo last task
+    }
+}
+
+
+🎯 Key Concepts (Interview GOLD 🔥)
+RoleMeaningCommandInterface (execute, undo)Concrete CommandEmail, ReportReceiverService (actual logic)InvokerSchedulerClientJo command banata hai
+
+🎯 Advantages
+✅ 1. Undo/Redo Easy
+👉 Stack से history maintain
+✅ 2. Decoupling
+👉 Sender ≠ Receiver
+✅ 3. No If-Else
+👉 हर command अलग class
+✅ 4. Open-Closed Principle
+👉 New command = new class
+✅ 5. Flexible
+👉 Queue, logging, retry possible
+
+⚠️ Interview Confusion (IMPORTANT)
+🔸 Command vs Abstract Factory
+CommandAbstract FactoryBehavior focusObject creation focusexecute(), undo()object creationhistory maintainno history
+
+🔸 Command vs Adapter
+CommandAdaptertask executionincompatible interface fixundo supportno undo
+
+🔥 Adapter Use Case (Bonus Twist)
+👉 Suppose legacy class:
+class OldBackup {
+    void run() { }
+    void undoLast() { }
+}
+
+👉 Problem:
+
+
+Interface expects → execute(), undo()
+
+
+👉 Solution: Adapter
+class BackupAdapter implements TaskCommand {
+
+    private OldBackup backup;
+
+    public BackupAdapter(OldBackup backup) {
+        this.backup = backup;
+    }
+
+    @Override
+    public void execute() {
+        backup.run();
+    }
+
+    @Override
+    public void undo() {
+        backup.undoLast();
+    }
+}
+
+
+🧠 RATANE KA TARIKA
+💡 1 Line याद रखो:
+
+"Command = Request ko object bana do"
+
+
+🧠 Flow Trick:
+Client → Command → Scheduler → Service
+
+
+🎮 Visual Trick:
+👉 Imagine:
+
+
+Remote = Scheduler 📺
+
+
+Button = Command 🔘
+
+
+TV = Receiver 📡
+
+
+👉 Button दबाओ → Command execute
+
+🔥 Memory Formula:
+1. Interface (Command)
+2. Concrete Commands
+3. Receiver (Logic)
+4. Invoker (Scheduler)
+5. History (Stack)
+
+
+🧾 कब Use करें?
+✔ Undo / Redo चाहिए
+✔ Task history चाहिए
+✔ Sender & Receiver decouple करना हो
+✔ Queue based execution
+
+🚫 Avoid When
+❌ Simple logic (over-engineering)
+❌ No undo / history needed

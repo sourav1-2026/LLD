@@ -31,7 +31,7 @@ public class Content {
         String contentType="";
 
         if(creator=="shreyansh"){
-            if(contentType=="LLD"){
+            if(contentType== "LLD_question"){
                 shreyanshLLD shreyanshLLD = new Content().new shreyanshLLD();
                 shreyanshLLD.display();
             } else if(contentType=="HLD"){
@@ -39,7 +39,7 @@ public class Content {
                 shreyanshHLD.display();
             }
         } else if(creator=="gaurav"){
-            if(contentType=="LLD"){
+            if(contentType== "LLD_question"){
                 GauravLLD gauravLLD = new Content().new GauravLLD();
                 gauravLLD.display();
             } else if(contentType=="HLD"){

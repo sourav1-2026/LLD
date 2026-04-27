@@ -33,13 +33,13 @@ public class Better {
     class Factory {
         public Course createCourse(String creator, String contentType) {
             if(creator.equals("shreyansh")){
-                if(contentType.equals("LLD")){
+                if(contentType.equals("LLD_question")){
                     return new shreyanshLLD();
                 } else if(contentType.equals("HLD")){
                     return new shreyanshHLD();
                 }
             } else if(creator.equals("gaurav")){
-                if(contentType.equals("LLD")){
+                if(contentType.equals("LLD_question")){
                     return new GauravLLD();
                 } else if(contentType.equals("HLD")){
                     return new GauravHLD();

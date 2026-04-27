@@ -1,0 +1,17 @@
+🔴 Problem Statement
+
+You are building a public API:
+
+Users can call API to fetch data
+But:
+Each user can only make 5 requests per minute
+If limit exceeded → block request
+🧠 How to Identify Proxy Pattern?
+
+Ask yourself:
+
+Is there access restriction before actual logic? ✅
+Is there a check happening before calling real service? ✅
+Is logic like rate limit / auth / validation added? ✅
+
+👉 This is Access Control → Proxy
